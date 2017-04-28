@@ -5,7 +5,6 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     brew install python3
     python3 -m venv venv
     source venv/bin/activate
-    pip install Cython
 fi
 python -c "import sys; sys.exit(sys.version_info[:2] != (3,2))" 2>/dev/null || pip install -U pip wheel
 
