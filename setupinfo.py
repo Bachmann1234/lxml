@@ -4,11 +4,8 @@ from distutils.errors import CompileError, DistutilsOptionError
 from distutils.command.build_ext import build_ext as _build_ext
 from versioninfo import get_base_dir
 
-try:
-    import Cython.Compiler.Version
-    CYTHON_INSTALLED = True
-except ImportError:
-    CYTHON_INSTALLED = False
+import Cython.Compiler.Version
+CYTHON_INSTALLED = True
 
 EXT_MODULES = ["lxml.etree", "lxml.objectify"]
 
