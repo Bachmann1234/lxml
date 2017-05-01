@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e -x
 if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-    if [[ -d "/Users/travis/.pyenv/versions/${PYENV_VERSION}" ]]; then
+    if [[ -z "$(pyenv versions | grep ${PYENV_VERSION})" ]]; then
         brew update
         brew upgrade pyenv
         /usr/local/bin/pyenv install "${PYENV_VERSION}"
