@@ -20,5 +20,5 @@ if [ -z "${DOCKER_IMAGE}" ]; then
         python setup.py bdist_wheel
     fi
 else
-    docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/tools/manylinux/build-wheels.sh
+   make wheel_manylinux
 fi
