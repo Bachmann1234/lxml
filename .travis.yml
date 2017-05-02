@@ -49,7 +49,7 @@ deploy:
   file_glob: true
   file:
     - dist/*.whl
-    - /io/wheelhouse/*.tar.gz
+    - /io/wheelhouse/*
   skip_cleanup: true
   on:
     tags: true
