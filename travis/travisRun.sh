@@ -17,7 +17,7 @@ if [ -z "${DOCKER_IMAGE}" ]; then
     CFLAGS="-O0 -g" PYTHONUNBUFFERED=x make test
 
     if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-        python setup.py bdist_wheel
+        make wheel_static
         if [[ ! -d "/io/wheelhouse" ]]; then
             mkdir /io/wheelhouse
         fi
