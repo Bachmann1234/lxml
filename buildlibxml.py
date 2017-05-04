@@ -2,12 +2,13 @@ import os, re, sys, subprocess
 import tarfile
 from distutils import log, version
 from contextlib import closing
+from ftplib import FTP
 
 try:
-    from urlparse import urljoin, unquote
+    from urlparse import urlsplit, urljoin, unquote, urlparse
     from urllib import urlretrieve, urlopen, urlcleanup
 except ImportError:
-    from urllib.parse import urljoin, unquote
+    from urllib.parse import urlsplit, urljoin, unquote, urlparse
     from urllib.request import urlretrieve, urlopen, urlcleanup
 
 multi_make_options = []
@@ -134,16 +135,16 @@ def _find_content_encoding(response, default='iso8859-1'):
 
 def ftp_listdir(url):
     assert url.lower().startswith('ftp://')
-    with closing(urlopen(url)) as res:
-        charset = _find_content_encoding(res)
-        content_type = res.headers.get('Content-Type')
-        data = res.read()
-
-    data = data.decode(charset)
-    if content_type and content_type.startswith('text/html'):
-        files = parse_html_ftplist(data)
-    else:
-        files = parse_text_ftplist(data)
+    parts = urlparse(url)
+    ftp = FTP(parts.netloc)
+    try:
+        ftp.login()
+        ftp.cwd(parts.path)
+        data = []
+        ftp.dir(data.append)
+    finally:
+        ftp.quit()
+    files = parse_text_ftplist(data)
     return files
 
 
@@ -156,7 +157,7 @@ def http_listfiles(url, re_pattern):
 
 
 def parse_text_ftplist(s):
-    for line in s.splitlines():
+    for line in s:
         if not line.startswith('d'):
             # -rw-r--r--   1 ftp      ftp           476 Sep  1  2011 md5sum.txt
             # Last (9th) element is 'md5sum.txt' in the above example, but there
