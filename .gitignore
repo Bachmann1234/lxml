@@ -11,6 +11,7 @@ libs
 *.so
 *.o
 *.pyd
+venv
 MANIFEST
 
 src/lxml/includes/lxml-version.h
